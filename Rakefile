@@ -7,7 +7,9 @@ $CFLAGS = "-fpermissive -c -pipe -Wall -W   -DQT_SHARED -DQT_NO_DEBUG -DQT_THREA
 desc "Build everything."
 lib = "c/libspatial_features.so"
 swig_lib = "swig/_spatial_features_cxx.so"
-ldflags = "-lgsl_utilities"
+ldflags = "-lgsl -lgslcblas -fPIC"
+
+
 
 
 
@@ -23,7 +25,7 @@ make_swig_targets(["swig/spatial_features_cxx.i"],
 make_swig_targets(["swig/gsl_utilities.i"], 
                   FileList["c/*.h"],
                   "swig/_gsl_utilities.so", 
-                  "-Ic", "-lgsl_utilities")
+                  "-Ic", "-lspatial_features")
 
 
 

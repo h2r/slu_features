@@ -1,4 +1,4 @@
-from esdcs.groundings import Prism
+from spatial_features.groundings import Prism
 from spatial_features_cxx import sfe_f_prism_l_prism, \
     sfe_f_prism_l_prism_names, math3d_higher_than, math2d_overlaps, \
     math3d_intersect_prisms, math3d_supports

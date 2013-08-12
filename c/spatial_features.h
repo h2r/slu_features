@@ -8,7 +8,7 @@
 #include <string>
 #include "gsl_utilities.h"
 #include "math2d.h"
-#include <math3d.h>
+#include "math3d.h"
 using namespace std;
 #ifdef __cplusplus
 extern "C" {
