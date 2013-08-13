@@ -15,7 +15,11 @@ directory $python_build_dir
 $lib_build_dir = "#{$slu_home}/build/lib/"
 directory $lib_build_dir
 
-$include_build_dir = "#{$slu_home}/build/include/"
+if ENV['BUILD_PREFIX']
+  $include_build_dir = "#{ENV['BUILD_PREFIX']}/build/include"
+else
+  $include_build_dir = "#{$slu_home}/build/include/"
+end
 directory $include_build_dir
 
 ENV['PYTHONPATH'] = ["#{$python_build_dir}",
