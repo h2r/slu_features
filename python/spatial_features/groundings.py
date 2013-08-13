@@ -3,7 +3,6 @@ from numpy import transpose as tp
 from assert_utils import assert_sorta_eq, array_equal
 import math
 from bisect import bisect_left
-from affineMatrix import AffineMatrix
 import spatial_features_cxx as sf
 id_counter = 0
 from hash_utils import fasthash

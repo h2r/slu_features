@@ -1,0 +1,17 @@
+The SLU features library consists of two- and three- dimensional
+feature vectores we use to compute grounded word meanings.  There are
+several families of features depending on the type of the grounding
+(e.g., path, prism, and whether it is 2d or 3d.)
+
+Type "make" to build the library.  All built files will go in the
+"build" directory unless the BUILD_PREFIX environment variable is set.
+
+The library is written in C for speed but is designed to be called
+from python.  It includes swig wrapperes and python types for many of
+its arguments (e.g., Prisms, which are a three dimensional object that
+consists of a polygon with height.)  
+
+The library also includes computational geometry libraries for 2d and
+3d (called math2d and math3d), designed to be called from C.
+
+
