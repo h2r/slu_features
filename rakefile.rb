@@ -2,34 +2,39 @@ ENV['SLU_HOME'] = $slu_home
 
 $python_version = `python -c "import sys; sys.stdout.write(sys.version[:3])"`
 
-$python_build_dir = "#{$slu_home}/build/lib/python#{$python_version}"
+if ENV['BUILD_PREFIX']
+  $build_dir = ENV['BUILD_PREFIX']
+else
+  $build_dir = "#{ENV['SLU_HOME']}/build"
+end
+  
+
+
+$python_build_dir = "#{$build_dir}/lib/python#{$python_version}"
 $pbd = $python_build_dir
 
-$python_build_dir = "#{$slu_home}/build/lib/python#{$python_version}"
-$jar_build_dir = "#{$slu_home}/build/share/java"
-$data_home = "#{$slu_home}/build/data/"
+$python_build_dir = "#{$build_dir}/lib/python#{$python_version}"
+$jar_build_dir = "#{$build_dir}/share/java"
+$data_home = "#{$build_dir}/data/"
 $cc = "g++"
 
 directory $python_build_dir
 
-$lib_build_dir = "#{$slu_home}/build/lib/"
+$lib_build_dir = "#{$build_dir}/lib/"
 directory $lib_build_dir
 
-if ENV['BUILD_PREFIX']
-  $include_build_dir = "#{ENV['BUILD_PREFIX']}/build/include"
-else
-  $include_build_dir = "#{$slu_home}/build/include/"
-end
+$include_build_dir = "#{$build_dir}/include/"
+
 directory $include_build_dir
 
 ENV['PYTHONPATH'] = ["#{$python_build_dir}",
-                     "#{$slu_home}/build/lib/python",
+                     "#{$build_dir}/lib/python",
                      "/usr/local/lib/python#{$python_version}/site-packages",
                      "/usr/local/lib/python#{$python_version}/dist-packages",
                      ENV['PYTHONPATH']].join(":")
-ENV['JAVA_LIB'] = "#{$slu_home}/java/slu-java/share/java/"
+ENV['JAVA_LIB'] = "#{$build_dir}/java/slu-java/share/java/"
 ENV['DATA_HOME'] = $data_home
-ENV['CLASSPATH']  = FileList["#{$slu_home}/build/share/java/*.jar"].join(":")
+ENV['CLASSPATH']  = FileList["#{$build_dir}/share/java/*.jar"].join(":")
                      
 
 ENV['LD_LIBRARY_PATH'] = [$lib_build_dir].join(":")
