@@ -84,30 +84,30 @@ gsl_matrix * math3d_compress(gsl_vector * timestamps,
   assert(points_xyztheta->size2 == timestamps->size);
   gsl_matrix * matrix = gsl_matrix_alloc(points_xyztheta->size1 + 1, 
                                          points_xyztheta->size2);
-  gsl_matrix * tmp_matrix = &(gsl_matrix_submatrix(matrix, 0, 0, points_xyztheta->size1,
-                                                   points_xyztheta->size2).matrix);
+  gsl_matrix_view tmp_matrix = gsl_matrix_submatrix(matrix, 0, 0, points_xyztheta->size1,
+                                                    points_xyztheta->size2);
 
-  gsl_vector * tmp_timestamps = &(gsl_matrix_row(matrix, points_xyztheta->size1).vector);
+  gsl_vector_view tmp_timestamps = gsl_matrix_row(matrix, points_xyztheta->size1);
   
   int current_idx = 0;
   for (size_t i = 0; i < timestamps->size; i++) {
     bool append = false;
-    gsl_vector * this_point = &gsl_matrix_column(points_xyztheta, i).vector;
+    gsl_vector_view this_point = gsl_matrix_column(points_xyztheta, i);
 
     if (current_idx == 0) {
       append = true;
     } else {
-      gsl_vector * last_point = &gsl_matrix_column(tmp_matrix, 
-                                                   current_idx - 1).vector;
+      gsl_vector_view last_point = gsl_matrix_column(&tmp_matrix.matrix, 
+                                                     current_idx - 1);
 
-      if (! tklib_vector_equal(last_point, this_point)) {
+      if (! tklib_vector_equal(&last_point.vector, &this_point.vector)) {
         append = true;
       }
     }
     if (append) {
-      gsl_vector_set(tmp_timestamps, 
+      gsl_vector_set(&tmp_timestamps.vector, 
                      current_idx, gsl_vector_get(timestamps, i));
-      gsl_matrix_set_col(tmp_matrix, current_idx, this_point);
+      gsl_matrix_set_col(&tmp_matrix.matrix, current_idx, &this_point.vector);
       current_idx += 1;
     }
   }  
